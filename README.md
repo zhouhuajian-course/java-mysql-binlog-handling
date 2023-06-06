@@ -56,6 +56,100 @@ mysql> show master status;
 1 row in set (0.00 sec)
 ```
 
+补充：
+
+对表结构进行修改时，表ID会变化
+
+```shell
+mysql> use db1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> desc users;
++-----------+------------------+------+-----+---------+----------------+
+| Field     | Type             | Null | Key | Default | Extra          |
++-----------+------------------+------+-----+---------+----------------+
+| user_id   | int              | NO   | PRI | NULL    | auto_increment |
+| user_name | varchar(128)     | YES  |     | NULL    |                |
+| age       | tinyint unsigned | YES  |     | NULL    |                |
++-----------+------------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into users values (0, '111', 11);
+Query OK, 1 row affected (0.00 sec)
+mysql> show binlog events\G
+省略其他事件
+   Log_name: binlog.000001
+        Pos: 1777
+ Event_type: Table_map
+  Server_id: 1
+End_log_pos: 1836
+       Info: table_id: 122 (db1.users)
+*************************** 25. row ***************************
+   Log_name: binlog.000001
+        Pos: 1836
+ Event_type: Write_rows
+  Server_id: 1
+End_log_pos: 1882
+       Info: table_id: 122 flags: STMT_END_F
+省略其他事件
+
+mysql> alter table users add column last_login_time int ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+*************************** 28. row ***************************
+   Log_name: binlog.000001
+        Pos: 1990
+ Event_type: Query
+  Server_id: 1
+End_log_pos: 2124
+       Info: use `db1`; alter table users add column last_login_time int /* xid=229 */
+28 rows in set (0.00 sec)
+
+mysql> insert into users values (0, '111', 11, UNIX_TIMESTAMP());
+Query OK, 1 row affected (0.00 sec)
+
+*************************** 31. row ***************************
+   Log_name: binlog.000001
+        Pos: 2277
+ Event_type: Table_map
+  Server_id: 1
+End_log_pos: 2337
+       Info: table_id: 123 (db1.users)
+*************************** 32. row ***************************
+   Log_name: binlog.000001
+        Pos: 2337
+ Event_type: Write_rows
+  Server_id: 1
+End_log_pos: 2387
+       Info: table_id: 123 flags: STMT_END_F
+
+mysql> alter table users drop column last_login_time;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into users values (0, '111', 11);
+Query OK, 1 row affected (0.01 sec)
+
+*************************** 38. row ***************************
+   Log_name: binlog.000001
+        Pos: 2779
+ Event_type: Table_map
+  Server_id: 1
+End_log_pos: 2838
+       Info: table_id: 124 (db1.users)
+*************************** 39. row ***************************
+   Log_name: binlog.000001
+        Pos: 2838
+ Event_type: Write_rows
+  Server_id: 1
+End_log_pos: 2884
+       Info: table_id: 124 flags: STMT_END_F
+
+```
+
 ## mysql-binlog-connector-java
 
 https://github.com/shyiko/mysql-binlog-connector-java  
@@ -113,6 +207,10 @@ Event{header=EventHeaderV4{timestamp=1686031495000, eventType=XID, serverId=1, h
 https://github.com/dothetrick/binlogportal
 
 可单机，可分布式高可用，依赖redis。列名已提供，非常方便。通过修改redis数据可修改binlog文件和位置
+
+源码值得学习  
+com.insistingon.binlogportal.factory.BinaryLogClientFactory.getClient  
+com.insistingon.binlogportal.event.MultiEventHandlerListener.onEvent  
 
 ```text
 分布式部署实现
