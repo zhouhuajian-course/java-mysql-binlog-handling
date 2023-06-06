@@ -203,10 +203,16 @@ delete from test where id=1;
 {"database":"school","table":"students","type":"delete","ts":1552153502,"xid":834,"commit":true,"data":{"id":1,"name":"小红","age":22}}
 ```
 
-## DataBus
+## Databus
 
 https://github.com/linkedin/databus
 
+貌似也是一个编译完就运行的程序
+
 ## Canal
 
-Alibaba
+https://github.com/alibaba/canal
+
+canal  /kəˈnæl/ 运河；渠 管，道
+
+貌似依赖zookeeper。貌似要下载启动canal服务端，然后再用客户端读取数据。
