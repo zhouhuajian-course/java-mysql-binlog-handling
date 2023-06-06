@@ -110,7 +110,7 @@ Event{header=EventHeaderV4{timestamp=1686031495000, eventType=XID, serverId=1, h
 
 https://github.com/dothetrick/binlogportal
 
-可单机，可分布式高可用，依赖redis。列名已提供，非常方便。
+可单机，可分布式高可用，依赖redis。列名已提供，非常方便。通过修改redis数据可修改binlog文件和位置
 
 ```text
 分布式部署实现
@@ -133,6 +133,16 @@ portals （建筑物的）大门，正门
     <artifactId>slf4j-simple</artifactId>
     <version>1.7.36</version>
 </dependency>
+```
+
+```shell
+127.0.0.1:6379> keys *
+1) "192.168.1.205:3306"
+2) "YdV.lLak$aSkzHN/KJXI2bi4IrHX.V."
+127.0.0.1:6379> get 192.168.1.205:3306
+"{\"binlogName\":\"binlog.000001\",\"position\":1593,\"serverId\":1}"
+127.0.0.1:6379> set 192.168.1.205:3306 "{\"binlogName\":\"binlog.000001\",\"position\":157,\"serverId\":1}"
+OK
 ```
 
 调试输出
