@@ -185,27 +185,27 @@ https://github.com/zendesk/maxwell
 网上数据简单修改
 
 ```sql
-CREATE TABLE `test` (
+CREATE TABLE `students` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) DEFAULT NULL,
     `age` int(11) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into test values(1,"小朋友",22);
-update test set name='Tom' where id=1;
+insert into students values(1,"小明",22);
+update test set name='小红' where id=1;
 delete from test where id=1;
 ```
 
 ```shell
-{"database":"test","table":"test","type":"insert","ts":1552153502,"xid":832,"commit":true,"data":{"id":1,"name":"小朋友","age":22}}
-{"database":"test","table":"test","type":"update","ts":1552153502,"xid":833,"commit":true,"data":{"id":1,"name":"Tom","age":22},"old":{"name":"小朋友"}}
-{"database":"test","table":"test","type":"delete","ts":1552153502,"xid":834,"commit":true,"data":{"id":1,"name":"Tom","age":22}}
+{"database":"school","table":"students","type":"insert","ts":1552153502,"xid":832,"commit":true,"data":{"id":1,"name":"小明","age":22}}
+{"database":"school","table":"students","type":"update","ts":1552153502,"xid":833,"commit":true,"data":{"id":1,"name":"小红","age":22},"old":{"name":"小明"}}
+{"database":"school","table":"students","type":"delete","ts":1552153502,"xid":834,"commit":true,"data":{"id":1,"name":"小红","age":22}}
 ```
 
 ## DataBus
 
-LinkedIn
+https://github.com/linkedin/databus
 
 ## Canal
 
