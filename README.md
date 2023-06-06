@@ -1,5 +1,7 @@
 # JAVA 语言 MySQL Binlog 处理
 
+https://mvnrepository.com/search?q=binlog 留意库的更新时间，不活跃的库可能不兼容新版本mysql
+
 binlog 测试数据 统一如下
 
 binlog.000001 157-1624
