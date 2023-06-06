@@ -174,3 +174,39 @@ EventEntity{event=Event{header=EventHeaderV4{timestamp=1686031451000, eventType=
 ]}}, eventEntityType=UPDATE, databaseName='school', tableName='students', columns=[com.insistingon.binlogportal.tablemeta.TableMetaEntity$ColumnMetaData@15ac5ce1, com.insistingon.binlogportal.tablemeta.TableMetaEntity$ColumnMetaData@37d33ea3, com.insistingon.binlogportal.tablemeta.TableMetaEntity$ColumnMetaData@1a6323fd], changeBefore=[2, lisi, 20], changeAfter=[2, lisi, 18]}
 列名：student_id name age 
 ```
+
+## Maxwell's daemon
+
+https://maxwells-daemon.io/  
+https://github.com/zendesk/maxwell
+
+貌似是一个应用程序，擅长把事件转成JSON，擅长结合MQ，例如Kafka
+
+网上数据简单修改
+
+```sql
+CREATE TABLE `test` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `age` int(11) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into test values(1,"小朋友",22);
+update test set name='Tom' where id=1;
+delete from test where id=1;
+```
+
+```shell
+{"database":"test","table":"test","type":"insert","ts":1552153502,"xid":832,"commit":true,"data":{"id":1,"name":"小朋友","age":22}}
+{"database":"test","table":"test","type":"update","ts":1552153502,"xid":833,"commit":true,"data":{"id":1,"name":"Tom","age":22},"old":{"name":"小朋友"}}
+{"database":"test","table":"test","type":"delete","ts":1552153502,"xid":834,"commit":true,"data":{"id":1,"name":"Tom","age":22}}
+```
+
+## DataBus
+
+LinkedIn
+
+## Canal
+
+Alibaba
