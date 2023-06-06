@@ -175,6 +175,41 @@ EventEntity{event=Event{header=EventHeaderV4{timestamp=1686031451000, eventType=
 列名：student_id name age 
 ```
 
+## open-replicator
+
+https://github.com/whitesock/open-replicator
+
+貌似很久没人维护了。对于新版本mysql可能不兼容。
+
+```xml
+<dependency>
+    <groupId>com.zendesk</groupId>
+    <artifactId>open-replicator</artifactId>
+    <version>1.6.0</version>
+</dependency>
+```
+
+调试结果
+
+```text
+[main] INFO com.google.code.or.OpenReplicator - starting replication at binlog.000001:157
+[binlog-parser-1] WARN com.google.code.or.binlog.impl.parser.QueryEventParser - unknown status variable type: 17
+[binlog-parser-1] WARN com.google.code.or.binlog.impl.parser.QueryEventParser - unknown status variable type: 17
+[binlog-parser-1] WARN com.google.code.or.binlog.impl.parser.QueryEventParser - unknown status variable type: 18
+press 'q' to stop
+FormatDescriptionEvent[header=BinlogEventV4HeaderImpl[timestamp=1686031301000,eventType=15,serverId=1,eventLength=122,nextPosition=0,flags=0,timestampOfReceipt=1686039210681],binlogVersion=4,serverVersion=8.0.33                                            ,createTimestamp=0,headerLength=19,eventTypes=[0, 13, 0, 8, 0, 0, 0, 0, 4, 0, 4, 0, 0, 0, 98, 0, 4, 26, 8, 0, 0, 0, 8, 8, 8, 2, 0, 0, 0, 10, 10, 10, 42, 42, 0, 18, 52, 0, 10, 40, 0, 1, 125, -72, -10, -26]]
+QueryEvent[header=BinlogEventV4HeaderImpl[timestamp=1686031313000,eventType=2,serverId=1,eventLength=114,nextPosition=348,flags=8,timestampOfReceipt=1686039210684],threadId=9,elapsedTime=0,databaseNameLength=6,errorCode=0,statusVariablesLength=49,statusVariables=[QFlags2Code[flags=0], QSQLModeCode[sqlMode=1168113696], QCatalogNzCode[catalogName=std], QCharsetCode[characterSetClient=255,collationConnection=255,collationServer=255], QUpdatedDBNames[accessedDbCount=1,accessedDbs=[Lcom.google.code.or.common.glossary.column.StringColumn;@a3917f]],databaseName=school,sql=create database school0�ï]
+QueryEvent[header=BinlogEventV4HeaderImpl[timestamp=1686031380000,eventType=2,serverId=1,eventLength=198,nextPosition=625,flags=0,timestampOfReceipt=1686039210687],threadId=9,elapsedTime=0,databaseNameLength=6,errorCode=0,statusVariablesLength=49,statusVariables=[QFlags2Code[flags=0], QSQLModeCode[sqlMode=1168113696], QCatalogNzCode[catalogName=std], QCharsetCode[characterSetClient=255,collationConnection=255,collationServer=255], QUpdatedDBNames[accessedDbCount=1,accessedDbs=[Lcom.google.code.or.common.glossary.column.StringColumn;@5e700e8f]],databaseName=school,sql=create table students (student_id int auto_increment, name varchar(32), age int, primary key (student_id))53Ę]
+QueryEvent[header=BinlogEventV4HeaderImpl[timestamp=1686031417000,eventType=2,serverId=1,eventLength=77,nextPosition=781,flags=8,timestampOfReceipt=1686039210687],threadId=9,elapsedTime=0,databaseNameLength=6,errorCode=0,statusVariablesLength=29,statusVariables=[QFlags2Code[flags=0], QSQLModeCode[sqlMode=1168113696], QCatalogNzCode[catalogName=std], QCharsetCode[characterSetClient=255,collationConnection=255,collationServer=255]],databaseName=school,sql=BEGIN)]
+TableMapEvent[header=BinlogEventV4HeaderImpl[timestamp=1686031417000,eventType=19,serverId=1,eventLength=65,nextPosition=846,flags=0,timestampOfReceipt=1686039210687],tableId=113,reserved=1,databaseNameLength=6,databaseName=school,tableNameLength=8,tableName=students,columnCount=3,columnTypes=[3, 15, 3],columnMetadataCount=2,columnMetadata=Metadata[metadata=[0, 128, 0]],columnNullabilities=110]
+[binlog-parser-1] ERROR com.google.code.or.binlog.impl.AbstractBinlogParser - failed to parse binlog
+java.lang.RuntimeException: assertion failed!  We left 12 unconsumed bytes in the buffer for event: BinlogEventV4HeaderImpl[timestamp=1686031417000,eventType=19,serverId=1,eventLength=65,nextPosition=846,flags=0,timestampOfReceipt=1686039210687]
+	at com.google.code.or.net.impl.EventInputStream.finishEvent(EventInputStream.java:73)
+	at com.google.code.or.binlog.impl.ReplicationBasedBinlogParser.doParse(ReplicationBasedBinlogParser.java:166)
+	at com.google.code.or.binlog.impl.AbstractBinlogParser$Task.run(AbstractBinlogParser.java:263)
+	at java.lang.Thread.run(Thread.java:750)
+```
+
 ## Maxwell's daemon
 
 https://maxwells-daemon.io/  

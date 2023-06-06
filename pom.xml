@@ -37,5 +37,10 @@
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.36</version>
     </dependency>
+    <dependency>
+      <groupId>com.zendesk</groupId>
+      <artifactId>open-replicator</artifactId>
+      <version>1.6.0</version>
+    </dependency>
   </dependencies>
 </project>
